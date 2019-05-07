@@ -1,9 +1,9 @@
 <template>
-    <div>
-      <router-view/>
-      <!--<button @click = "login">login</button>-->
-      <!--<router-link to="/Login">Index</router-link>-->
-    </div>
+  <div>
+    <router-view/>
+    <!--<button @click = "login">login</button>-->
+    <!--<router-link to="/Login">Index</router-link>-->
+  </div>
 </template>
 
 <script>

@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
+import test1 from '@/pages/test1'
+import test2 from '@/pages/test2'
+import mainpage from '@/pages/mainpage'
+import Register from '@/pages/register'
 import ForgetPassword from '@/pages/ForgetPassword'
+
+import Login from '@/pages/Login'
 import Home from '@/pages/Home'
 import AboutUs from '@/pages/AboutUs'
 import CourseInfo from '@/pages/CourseInfo'
@@ -13,11 +17,34 @@ import PublishSign from '@/pages/PublishSign'
 import SignIn from '@/pages/SignIn'
 import SignResult from '@/pages/SignResult'
 import ModifyImg from '@/pages/ModifyImg'
-
 Vue.use(Router)
-
 export default new Router({
   routes: [
+    {
+      path: '/test1',
+      name: 'test1',
+      component: test1
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/Forgetpassword',
+      name: 'Forgetpassword',
+      component: ForgetPassword
+    },
+    {
+      path: '/test2',
+      name: 'test2',
+      component: test2
+    },
+    {
+      path: '/mainpage',
+      name: 'mainpage',
+      component: mainpage
+    },
     {
       path: '/',
       name: 'Login',
@@ -27,11 +54,6 @@ export default new Router({
       path: '/Register',
       name: 'Register',
       component: Register
-    },
-    {
-      path: '/ForgetPassword',
-      name: 'ForgetPassword',
-      component: ForgetPassword
     },
     {
       path: '/Home',
@@ -83,6 +105,5 @@ export default new Router({
       name: 'ModifyImg',
       component: ModifyImg
     }
-  ],
-  mode: 'history'
+  ]
 })
