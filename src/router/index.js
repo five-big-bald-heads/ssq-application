@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import test1 from '@/pages/test1'
-import test2 from '@/pages/test2'
 import mainpage from '@/pages/mainpage'
 import Register from '@/pages/register'
 import ForgetPassword from '@/pages/ForgetPassword'
-
 import Login from '@/pages/Login'
 import Home from '@/pages/Home'
 import AboutUs from '@/pages/AboutUs'
@@ -17,43 +14,29 @@ import PublishSign from '@/pages/PublishSign'
 import SignIn from '@/pages/SignIn'
 import SignResult from '@/pages/SignResult'
 import ModifyImg from '@/pages/ModifyImg'
+import CheckUpdate from '@/pages/CheckUpdate'
 Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/test1',
-      name: 'test1',
-      component: test1
-    },
-    {
-      path: '/Register',
+      path: '/Register', /* 注册 */
       name: 'Register',
       component: Register
     },
     {
-      path: '/Forgetpassword',
+      path: '/Forgetpassword', /* 忘记密码 */
       name: 'Forgetpassword',
       component: ForgetPassword
     },
     {
-      path: '/test2',
-      name: 'test2',
-      component: test2
-    },
-    {
-      path: '/mainpage',
+      path: '/mainpage', /* 主页 */
       name: 'mainpage',
       component: mainpage
     },
     {
-      path: '/',
+      path: '/', /* 登陆 */
       name: 'Login',
       component: Login
-    },
-    {
-      path: '/Register',
-      name: 'Register',
-      component: Register
     },
     {
       path: '/Home',
@@ -61,7 +44,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/AboutUs',
+      path: '/AboutUs', /* 关于我们 */
       name: 'AboutUs',
       component: AboutUs
     },
@@ -71,7 +54,7 @@ export default new Router({
       component: CourseInfo
     },
     {
-      path: '/PersonalCenter', /* 修改密码 */
+      path: '/PersonalCenter', /* 个人中心 */
       name: 'PersonalCenter',
       component: PersonalCenter
     },
@@ -101,9 +84,14 @@ export default new Router({
       component: SignResult
     },
     {
-      path: '/ModifyImg', /* 修改密码 */
+      path: '/ModifyImg', /* 修改头像 */
       name: 'ModifyImg',
       component: ModifyImg
+    },
+    {
+      path: '/CheckUpdate', /* 检查更新 */
+      name: 'CheckUpdate',
+      component: CheckUpdate
     }
   ]
 })
