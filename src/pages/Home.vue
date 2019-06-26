@@ -5,36 +5,42 @@
     </div>
     <div class="content">
       <div class="group">
-        <router-link to="/SignIn">
-        <div class="course_item" >
+        <div>
+          <router-link to="/SignIn"  v-for="(item, i) in list" :key="i">
+            <div class="course_item" >
           <span class="span1">
             <img class="course_img" src="../assets/course_img/ML.jpg">
           </span>
-          <span class="span2">
-            <router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>
+              <span class="span2" >
+            <div to="/CourseInfo" class="course_name" >
+              <p ref="CourseName" >课程：{{item.courseName}}</p>
+              <p ref="CourseName" >考试时间：{{item.examTime}}</p>
+              <p ref="CourseName" >任课老师：{{item.teacherName}}</p>
+            </div>
           </span>
+            </div>
+          </router-link>
         </div>
-        </router-link>
-        <router-link to="/SignIn">
-          <div class="course_item" >
-          <span class="span1">
-            <img class="course_img" src="../assets/course_img/ML.jpg">
-          </span>
-            <span class="span2">
-            <router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>
-          </span>
-          </div>
-        </router-link>
-        <router-link to="/SignIn">
-          <div class="course_item" >
-          <span class="span1">
-            <img class="course_img" src="../assets/course_img/ML.jpg">
-          </span>
-            <span class="span2">
-            <router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>
-          </span>
-          </div>
-        </router-link>
+        <!--<router-link to="/SignIn">-->
+          <!--<div class="course_item" >-->
+          <!--<span class="span1">-->
+            <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+          <!--</span>-->
+            <!--<span class="span2">-->
+            <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+          <!--</span>-->
+          <!--</div>-->
+        <!--</router-link>-->
+        <!--<router-link to="/SignIn">-->
+          <!--<div class="course_item" >-->
+          <!--<span class="span1">-->
+            <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+          <!--</span>-->
+            <!--<span class="span2">-->
+            <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+          <!--</span>-->
+          <!--</div>-->
+        <!--</router-link>-->
       </div>
     <div class="bottom">
       <span class="icon_course">
@@ -52,8 +58,20 @@
 
 <script>
 import { Group, Cell, XHeader, XInput, XButton } from 'vux'
+import axios from 'axios'
+import qs from 'qs'
 export default {
-  name: 'Register',
+  name: 'home',
+  data () {
+    return {
+      listData: [
+        {'courseId': 1, 'examTime': '2019-06-20', 'teacherId': '180327001', 'courseName': '高级机器学习', 'teacherName': 'zhao'},
+        {'courseId': 1, 'examTime': '2019-06-20', 'teacherId': '180327001', 'courseName': '高级机器学习', 'teacherName': 'zhao'}
+      ],
+      list: [],
+      nihao: ''
+    }
+  },
   components: {
     Group,
     Cell,
@@ -61,12 +79,41 @@ export default {
     XInput,
     XButton
   },
+  mounted () {
+    this.showData()
+  },
   methods: {
-    toCourse () {
-      this.$router.push('/Course')
+    toCourse: function () {
+      this.CourseName = this.$refs.CourseName.innerText
+      //      this.$router.push({
+      //        path: '/CourseInfo',
+      //        query: {
+      //          CourseName: this.CourseName
+      //        }
+      //      })
     },
     toPersonalCenter () {
       this.$router.push('/PersonalCenter')
+    },
+    showData () {
+      //      const orderData = { 'stno': '180327001' }
+      //      sessionStorage.setItem('courseinfo', JSON.stringify(orderData))
+      //      const dataB = JSON.parse(sessionStorage.getItem('courseinfo'))
+      axios.get('http://localhost:8080/Student/Course', qs.stringify({
+        stno: '180327001'
+      }), {
+        emulateJSON: true
+      }, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        }
+      }).then(res => {
+        this.list = res.data.data
+        console.log(this.list)
+      })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }

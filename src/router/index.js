@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import mainpage from '@/pages/mainpage'
 import Register from '@/pages/register'
 import ForgetPassword from '@/pages/ForgetPassword'
 import Login from '@/pages/Login'
 import Home from '@/pages/Home'
 import AboutUs from '@/pages/AboutUs'
 import CourseInfo from '@/pages/CourseInfo'
+import Course from '@/pages/Course'
 import ModifyPassword from '@/pages/ModifyPassword'
 import PersonalCenter from '@/pages/PersonalCenter'
 import PersonalInfo from '@/pages/PersonalInfo'
@@ -15,6 +15,7 @@ import SignIn from '@/pages/SignIn'
 import SignResult from '@/pages/SignResult'
 import ModifyImg from '@/pages/ModifyImg'
 import CheckUpdate from '@/pages/CheckUpdate'
+import PerfectInfo from '@/pages/PerfectInfo'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -27,11 +28,6 @@ export default new Router({
       path: '/Forgetpassword', /* 忘记密码 */
       name: 'Forgetpassword',
       component: ForgetPassword
-    },
-    {
-      path: '/mainpage', /* 主页 */
-      name: 'mainpage',
-      component: mainpage
     },
     {
       path: '/', /* 登陆 */
@@ -92,6 +88,16 @@ export default new Router({
       path: '/CheckUpdate', /* 检查更新 */
       name: 'CheckUpdate',
       component: CheckUpdate
+    },
+    {
+      path: '/PerfectInfo', /* 完善个人信息 */
+      name: 'PerfectInfo',
+      component: PerfectInfo
+    },
+    {
+      path: '/Course', /* 课程详情 */
+      name: 'Course',
+      component: Course
     }
   ]
 })
