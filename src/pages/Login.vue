@@ -5,7 +5,7 @@
     </div>
     <div class="content">
       <div class="imgarea">
-        <img >
+        <img src="../assets/icon.jpg" style="width: 150px;height: 150px">
       </div>
       <div id="table" class="table">
         <div>
@@ -27,17 +27,40 @@
         </span>
       </div>
     </div>
+    <div v-transfer-dom>
+      <alert v-model="show1" :title="'请输入用户名'"> 用户名不能为空</alert>
+    </div>
+    <div v-transfer-dom>
+      <alert v-model="show2" :title="'请输入密码'">密码不能为空</alert>
+    </div>
+    <div v-transfer-dom>
+      <alert v-model="show3" :title="'用户名不存在'"> 请输入正确的用户名</alert>
+    </div>
+    <div v-transfer-dom>
+      <alert v-model="show4" :title="'密码错误'">请输入正确的密码</alert>
+    </div>
   </div>
 </template>
 
-<script>
-import { Group, Cell, XHeader, XInput, XButton, Alert } from 'vux'
+<script type = "text/javascript">
+import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
+import axios from 'axios'
+import qs from 'qs'
 export default {
   name: 'Login',
+  directives: {
+    TransferDom
+  },
   data () {
     return {
       userName: '',
-      passWord: ''
+      passWord: '',
+      show1: false,
+      show2: false,
+      show3: false,
+      show4: false,
+      resData: [],
+      postData: []
     }
   },
   components: {
@@ -49,11 +72,37 @@ export default {
     Alert
   },
   methods: {
-    handleSubmit () {
-      if (this.userName === '' || this.passWord === '') {
-        alert('请输入用户名或密码')
+    handleSubmit: function () {
+      if (this.userName === '') {
+        this.show1 = true
+      } else if (this.passWord === '') {
+        this.show2 = true
       } else {
-        this.$router.push('/Home')
+        axios.post('http://localhost:8080/login', qs.stringify({
+          stno: this.userName,
+          password: this.passWord
+        }), {
+          headers: {
+            token: 'true'
+          }
+        }).then(res => {
+          console.log(res.data)
+          if (res.data.code === 200) {
+            sessionStorage.setItem('username', this.userName)
+            this.$router.push('/TeacherHome')
+            if (this.userName[0] === 'T') {
+              this.$router.push('/TeacherHome')
+            } else {
+              this.$router.push('/Home')
+            }
+          } else if (res.data.code === 10001) {
+            this.passWord = ''
+            this.show4 = true
+          } else if (res.data.code === 10004) {
+            this.userName = ''
+            this.show3 = true
+          }
+        })
       }
     }
   }

@@ -1,29 +1,20 @@
 <template>
   <div>
     <div>
-      <x-header :left-options="{backText: ''}">签到</x-header>
+      <x-header :left-options="{backText: ''}">签到详情</x-header>
     </div>
     <div class="content">
-      <div class="signinButton">
-        <x-button  class="button" @click.native="handleSubmit">
-          <a>开始签到</a>
-        </x-button>
-      </div>
-      <div class="signinTitle">
-        签到情况
-      </div>
       <div class="signinInfo">
         <div class="record" v-for="(item , i) in list" :key="i">
           <div class="item1">
-            <div>{{item.signTime.split('T')[0]}} {{weekDay[new Date(item.signTime.split('T')[0]).getDay()]}}</div>
-            <div class="item2">{{item.signTime.split('T')[1].split('.')[0]}}</div>
+            <div>{{item.studentId}}</div>
+            <div class="item2">{{item.signTime.split('T')[0]}}  {{item.signTime.split('T')[1].split('.')[0]}}</div>
           </div>
-          <div class="item3">已签到</div>
+          <div class="item3">
+              <a>已签到</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-transfer-dom>
-      <alert v-model="show1" :title="'请勿重复签到'">您已签过到</alert>
     </div>
   </div>
 </template>
@@ -31,16 +22,17 @@
 <script>
 import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 export default {
-  name: 'SignIn',
+  name: 'TeacherSignrecord',
   data () {
     return {
-      courseid: '',
+      courseId: 1,
       show1: false,
       userName: '',
       date: '',
       time: '',
+      signid: '',
       resdata: '',
       weekDay:
         ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
@@ -65,46 +57,20 @@ export default {
   methods: {
     showData: function () {
       this.userName = sessionStorage.getItem('username')
-      this.courseid = sessionStorage.getItem('courseid')
-      axios.get('http://localhost:8080/Student/SignRecord', {
+      this.signid = sessionStorage.getItem('signid')
+      console.log(this.signid)
+      axios.get('http://localhost:8080/Teacher/SignRecord', {
         params: {
-          courseid: this.courseid,
-          studentid: this.userName
+          signid: this.signid
         }
       }).then((res) => {
         this.list = res.data.data
-        console.log(res.data.data)
-        console.log(this.userName)
+        console.log(this.list)
         if (res.data.code === 200) {
         } else if (res.data.code === 10001) {
         }
       }, (response) => {
         // 响应错误回调
-      })
-    },
-    handleSubmit: function () {
-      this.userName = sessionStorage.getItem('username')
-      this.courseid = sessionStorage.getItem('courseid')
-      axios.put('http://localhost:8080/Student/SignRecord', qs.stringify({
-        courseid: this.courseid,
-        studentid: this.userName
-      }), {
-        headers: {
-          token: 'true'
-        }
-      }).then(res => {
-        this.resdata = res.data.data
-        // this.time = this.resdata.split('T')
-        // this.date = this.time[0] // 剥出日期
-        // this.time = this.time[1]
-        // this.time = this.time.split('.')
-        // this.time = this.time[0] // 剥出时间
-        // console.log(this.date)
-        // console.log(this.time)
-        if (res.data.code === 200) {
-        } else if (res.data.code === 10001) {
-          this.show1 = true
-        }
       })
     }
   }
@@ -134,6 +100,16 @@ export default {
     color: #1abc9c;
   }
   button::after{
+    border:none;// 去除边框
+  }
+  .button1{
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    color: #66cdaa;
+  }
+  button1::after{
     border:none;// 去除边框
   }
   .signinTitle{
@@ -168,7 +144,7 @@ export default {
     margin-top: 8px;
     margin-left: 10px;
     padding: 0px;
-    width: 80%;
+    width: 60%;
     font-size: 14px;
     background-color: #ffffff;
   }
@@ -182,7 +158,7 @@ export default {
     float: right;
     position: relative;
     margin-top: 20px;
-    margin-right: 10px;
+    margin-right: 40px;
     color: #b2b2b2;
   }
 </style>
