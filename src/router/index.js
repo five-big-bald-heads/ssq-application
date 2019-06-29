@@ -16,6 +16,9 @@ import SignResult from '@/pages/SignResult'
 import ModifyImg from '@/pages/ModifyImg'
 import CheckUpdate from '@/pages/CheckUpdate'
 import PerfectInfo from '@/pages/PerfectInfo'
+import TeacherHome from '@/pages/TeacherHome'
+import TeacherSignrecord from '@/pages/TeacherSignrecord'
+
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -98,6 +101,16 @@ export default new Router({
       path: '/Course', /* 课程详情 */
       name: 'Course',
       component: Course
+    },
+    {
+      path: '/TeacherHome', /* 课程详情 */
+      name: 'TeacherHome',
+      component: TeacherHome
+    },
+    {
+      path: '/TeacherSignrecord', /* 课程详情 */
+      name: 'TeacherSignrecord',
+      component: TeacherSignrecord
     }
   ]
 })
