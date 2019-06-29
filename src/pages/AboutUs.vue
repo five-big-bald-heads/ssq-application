@@ -3,27 +3,25 @@
     <div>
       <x-header :left-options="{backText: ''}">关于我们</x-header>
     </div>
-    <div style="margin-top: 30px;margin-left: 150px">
-      <p>上上签</p>
-    </div>
+    <p style="font-weight: 500;font-size: 20px; text-align: center;padding: 40px 0 0 0">上上签</p>
     <div class="divpadding">
-      <img src="../assets/aboutus/yc.jpg" class="imgs" >
+      <img src="../assets/img.jpeg" class="imgs" >
       <p class="text">杨晨</p>
     </div>
     <div class="divpadding">
-      <img src="../assets/aboutus/ly.jpg" class="imgs">
+      <img src="../assets/img.jpeg" class="imgs">
       <p class="text" >林艳</p>
     </div>
     <div class="divpadding">
-      <img src="../assets/aboutus/sw.jpg" class="imgs" >
+      <img src="../assets/img.jpeg" class="imgs" >
       <p class="text" >张斯巍</p>
     </div>
     <div class="divpadding">
-      <img src="../assets/aboutus/ll.jpg" class="imgs">
+      <img src="../assets/img.jpeg" class="imgs">
       <p class="text" >许玲玲</p>
     </div>
     <div class="divpadding">
-      <img src="../assets/aboutus/dq.jpg" class="imgs">
+      <img src="../assets/img.jpeg" class="imgs">
       <p class="text" >王徳钦</p>
     </div>
   </div>
