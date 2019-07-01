@@ -4,10 +4,8 @@
       <x-header :left-options="{backText: ''}">签到</x-header>
     </div>
     <div class="content">
-      <div class="signinButton">
-        <x-button  class="button" @click.native="handleSubmit">
-          <a>发布签到</a>
-        </x-button>
+      <div class="signinButton" v-on:click="showConfirm()">
+        发布签到
       </div>
       <div class="signinTitle">
         发布签到情况
@@ -15,7 +13,8 @@
       <div class="signinInfo">
         <div class="record" v-for="(item , i) in list" :key="i">
           <div class="item1">
-            <div>{{item.signInTime.split('T')[0]}}  {{item.signInTime.split('T')[1].split('.')[0]}}</div>
+            <!--<div>{{item.signInTime.split('T')[0]}}  {{item.signInTime.split('T')[1].split('.')[0]}}</div>-->
+            <div>{{item.signInTime.split(' ')[0]}}  {{item.signInTime.split(' ')[1]}}</div>
             <div class="item2">允许签到时间：{{item.duration}}</div>
           </div>
           <div class="item3">
@@ -26,11 +25,20 @@
         </div>
       </div>
     </div>
+    <toast v-model="show3" text="发布成功"></toast>
+    <div v-transfer-dom>
+      <confirm v-model="show2"
+               show-input
+               ref="confirm5"
+               :title="'请输入签到持续时间(分钟)'"
+               @on-confirm="handleSubmit">
+      </confirm>
+    </div>
   </div>
 </template>
 
 <script>
-import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
+import { Confirm, Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert, Toast } from 'vux'
 import axios from 'axios'
 import qs from 'qs'
 export default {
@@ -38,9 +46,12 @@ export default {
   data () {
     return {
       courseId: 1,
+      timestamp: null,
       show1: false,
+      show2: false,
+      show3: false,
+      message: 'Hello',
       userName: '',
-      date: '',
       time: '',
       signid: '',
       resdata: '',
@@ -56,17 +67,25 @@ export default {
   },
   mounted () {
     this.showData()
+    this.utc2beijing()
   },
   components: {
+    Confirm,
     Group,
     Cell,
     XHeader,
     XInput,
     XButton,
-    Alert
+    Alert,
+    Toast
   },
   methods: {
-    showData: function () {
+    utc2beijing: function (time) {
+      var dateee = new Date(time).toJSON()
+      var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      return date
+    },
+    showData: function () { // 直接显示教师本课程的历史发布签到
       this.userName = sessionStorage.getItem('username')
       this.courseId = sessionStorage.getItem('courseid')
       axios.get('http://localhost:8080/Teacher/SignIn', {
@@ -74,6 +93,9 @@ export default {
           courseid: this.courseId
         }
       }).then((res) => {
+        for (var i = 0; i < res.data.data.length; i++) {
+          res.data.data[i].signInTime = this.$options.methods.utc2beijing(res.data.data[i].signInTime)
+        }
         this.list = res.data.data
         console.log(this.list)
         if (res.data.code === 200) {
@@ -84,25 +106,33 @@ export default {
         // 响应错误回调
       })
     },
-    handleSubmit: function () {
+    showConfirm: function () { // 显示输入持续时间的弹窗
+      this.show2 = true
+    },
+    handleSubmit: function (value) { // 发布签到
       this.userName = sessionStorage.getItem('username')
-      axios.put('http://localhost:8080/Teacher/SignIn', qs.stringify({
-        courseid: 1,
-        studentid: this.userName
+      this.courseId = sessionStorage.getItem('courseid')
+      axios.post('http://localhost:8080/Teacher/SignIn', qs.stringify({
+        courseid: this.courseId,
+        studentid: this.userName,
+        duration: parseFloat(value)
       }), {
         headers: {
           token: 'true'
         }
       }).then(res => {
         this.resdata = res.data.data
+        console.log(res.data.code)
         if (res.data.code === 200) {
-          this.show2 = true // 按确定后重新载入页面
+          this.show3 = true
+          // this.$router.push('/PublishSign')
+          location.reload() // 按确定后重新载入页面
         } else if (res.data.code === 10001) {
           this.show1 = true
         }
       })
     },
-    handleInfo: function (id) {
+    handleInfo: function (id) { // 点击查看某次签到的详情
       console.log('当前被点击的id=' + id)
       this.signid = parseInt(id)
       sessionStorage.setItem('signid', this.signid)
@@ -137,6 +167,9 @@ export default {
     width: 100%;
     margin: 0;
     padding: 0;
+    text-align:center;
+    line-height: 80px;
+    color: #1abc9c;
   }
   .button{
     background-color: white;

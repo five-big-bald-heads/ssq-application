@@ -4,10 +4,8 @@
       <x-header :left-options="{backText: ''}">签到</x-header>
     </div>
     <div class="content">
-      <div class="signinButton">
-        <x-button  class="button" @click.native="handleSubmit">
-          <a>开始签到</a>
-        </x-button>
+      <div class="signinButton" v-on:click="handleSubmit()">
+        开始签到
       </div>
       <div class="signinTitle">
         签到情况
@@ -15,16 +13,23 @@
       <div class="signinInfo">
         <div class="record" v-for="(item , i) in list" :key="i">
           <div class="item1">
-            <div>{{item.signTime.split('T')[0]}} {{weekDay[new Date(item.signTime.split('T')[0]).getDay()]}}</div>
-            <div class="item2">{{item.signTime.split('T')[1].split('.')[0]}}</div>
+            <div>{{item.signTime.split(' ')[0]}} {{weekDay[new Date(item.signTime.split(' ')[0]).getDay()]}}</div>
+            <div class="item2">{{item.signTime.split(' ')[1]}}</div>
           </div>
           <div class="item3">已签到</div>
         </div>
       </div>
     </div>
     <div v-transfer-dom>
-      <alert v-model="show1" :title="'请勿重复签到'">您已签过到</alert>
+      <alert v-model="show1" :title="''">您已签过到</alert>
     </div>
+    <div v-transfer-dom>
+      <alert v-model="show1" :title="''">当前不在签到时间！</alert>
+    </div>
+    <div v-transfer-dom>
+      <alert v-model="show3" :title="''">请勿重复签到！</alert>
+    </div>
+    <toast v-model="show2" text="签到成功"></toast>
   </div>
 </template>
 
@@ -38,8 +43,8 @@ export default {
     return {
       courseid: '',
       show1: false,
+      show2: false,
       userName: '',
-      date: '',
       time: '',
       resdata: '',
       weekDay:
@@ -63,6 +68,11 @@ export default {
     Alert
   },
   methods: {
+    utc2beijing: function (time) {
+      var dateee = new Date(time).toJSON()
+      this.date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      return this.date
+    },
     showData: function () {
       this.userName = sessionStorage.getItem('username')
       this.courseid = sessionStorage.getItem('courseid')
@@ -72,6 +82,9 @@ export default {
           studentid: this.userName
         }
       }).then((res) => {
+        for (var i = 0; i < res.data.data.length; i++) {
+          res.data.data[i].signTime = this.$options.methods.utc2beijing(res.data.data[i].signTime)
+        }
         this.list = res.data.data
         console.log(res.data.data)
         console.log(this.userName)
@@ -102,8 +115,11 @@ export default {
         // console.log(this.date)
         // console.log(this.time)
         if (res.data.code === 200) {
-        } else if (res.data.code === 10001) {
-          this.show1 = true
+          this.show2 = true
+        } else if (res.data.msg === '签到超时') {
+          this.show1 = true // 当前不在签到时间
+        } else if (res.data.msg === '请勿重复签到') {
+          this.show3 = true // 当前不在签到时间
         }
       })
     }
@@ -125,6 +141,9 @@ export default {
     width: 100%;
     margin: 0;
     padding: 0;
+    text-align:center;
+    line-height: 80px;
+    color: #1abc9c;
   }
   .button{
     background-color: white;

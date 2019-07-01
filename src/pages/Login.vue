@@ -89,7 +89,6 @@ export default {
           console.log(res.data)
           if (res.data.code === 200) {
             sessionStorage.setItem('username', this.userName)
-            this.$router.push('/TeacherHome')
             if (this.userName[0] === 'T') {
               this.$router.push('/TeacherHome')
             } else {

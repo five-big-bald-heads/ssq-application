@@ -125,7 +125,7 @@ export default {
   }
   .span2 {
     display:inline-block;
-    margin-right: 170px;
+    margin-right: 130px;
     margin-top: 7px;
     float: right;
     height: 100px;

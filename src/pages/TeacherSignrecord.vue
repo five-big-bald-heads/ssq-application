@@ -8,7 +8,7 @@
         <div class="record" v-for="(item , i) in list" :key="i">
           <div class="item1">
             <div>{{item.studentId}}</div>
-            <div class="item2">{{item.signTime.split('T')[0]}}  {{item.signTime.split('T')[1].split('.')[0]}}</div>
+            <div class="item2">{{item.signTime.split(' ')[0]}}  {{item.signTime.split(' ')[1]}}</div>
           </div>
           <div class="item3">
               <a>已签到</a>
@@ -30,7 +30,6 @@ export default {
       courseId: 1,
       show1: false,
       userName: '',
-      date: '',
       time: '',
       signid: '',
       resdata: '',
@@ -55,6 +54,11 @@ export default {
     Alert
   },
   methods: {
+    utc2beijing: function (time) {
+      var dateee = new Date(time).toJSON()
+      var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+      return date
+    },
     showData: function () {
       this.userName = sessionStorage.getItem('username')
       this.signid = sessionStorage.getItem('signid')
@@ -64,6 +68,9 @@ export default {
           signid: this.signid
         }
       }).then((res) => {
+        for (var i = 0; i < res.data.data.length; i++) {
+          res.data.data[i].signTime = this.$options.methods.utc2beijing(res.data.data[i].signTime)
+        }
         this.list = res.data.data
         console.log(this.list)
         if (res.data.code === 200) {
