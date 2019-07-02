@@ -16,6 +16,38 @@
           </span>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+      <!--<div class="course_item" v-for="(item, i) in list" :key="i">-->
+      <!--<span class="span1">-->
+                  <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+                 <!--</span>-->
+      <!--<span class="span2" >-->
+                    <!--<p ref="CourseName" >课程：{{item.courseName}}</p>-->
+                    <!--<p ref="CourseName" >考试时间：{{item.examTime}}</p>-->
+                    <!--<p ref="CourseName" >任课老师：{{item.teacherName}}</p>-->
+                  <!--</span>-->
+        <!--<router-link to="/SignIn">-->
+          <!--<div class="course_item" >-->
+          <!--<span class="span1">-->
+            <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+          <!--</span>-->
+            <!--<span class="span2">-->
+            <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+          <!--</span>-->
+          <!--</div>-->
+        <!--</router-link>-->
+        <!--<router-link to="/SignIn">-->
+          <!--<div class="course_item" >-->
+          <!--<span class="span1">-->
+            <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+          <!--</span>-->
+            <!--<span class="span2">-->
+            <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+          <!--</span>-->
+          <!--</div>-->
+        <!--</router-link>-->
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
       </div>
     <div class="bottom">
       <span class="icon_course">
@@ -67,7 +99,11 @@ export default {
       //      sessionStorage.setItem('courseinfo', JSON.stringify(orderData))
       //      const dataB = JSON.parse(sessionStorage.getItem('courseinfo'))
       this.userName = sessionStorage.getItem('username')
+<<<<<<< HEAD
       axios.get('http://101.132.46.183:8080/Student/Course', qs.stringify({
+=======
+      axios.get('http://localhost:8080/Student/Course', qs.stringify({
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         stno: this.userName
       }), {
         emulateJSON: true

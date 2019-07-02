@@ -63,7 +63,11 @@ export default {
       this.userName = sessionStorage.getItem('username')
       this.signid = sessionStorage.getItem('signid')
       console.log(this.signid)
+<<<<<<< HEAD
       axios.get('http://101.132.46.183:8080/Teacher/SignRecord', {
+=======
+      axios.get('http://localhost:8080/Teacher/SignRecord', {
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         params: {
           signid: this.signid
         }

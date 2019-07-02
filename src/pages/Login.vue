@@ -78,7 +78,11 @@ export default {
       } else if (this.passWord === '') {
         this.show2 = true
       } else {
+<<<<<<< HEAD
         axios.post('http://101.132.46.183:8080/login', qs.stringify({
+=======
+        axios.post('http://localhost:8080/login', qs.stringify({
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
           stno: this.userName,
           password: this.passWord
         }), {
@@ -89,6 +93,7 @@ export default {
           console.log(res.data)
           if (res.data.code === 200) {
             sessionStorage.setItem('username', this.userName)
+<<<<<<< HEAD
             // 设置Vuex登录标志为true，默认userLogin为false
             //            this.$store.dispatch('userLogin', true)
             // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
@@ -100,6 +105,12 @@ export default {
             } else {
               this.$router.push('/Home')
               localStorage.setItem('isStudent', '1')
+=======
+            if (this.userName[0] === 'T') {
+              this.$router.push('/TeacherHome')
+            } else {
+              this.$router.push('/Home')
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
             }
           } else if (res.data.code === 10001) {
             this.passWord = ''

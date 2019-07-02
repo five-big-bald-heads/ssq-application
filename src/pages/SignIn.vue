@@ -34,7 +34,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert, Toast } from 'vux'
+=======
+import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
 import axios from 'axios'
 import qs from 'qs'
 export default {
@@ -44,7 +48,10 @@ export default {
       courseid: '',
       show1: false,
       show2: false,
+<<<<<<< HEAD
       show3: false,
+=======
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
       userName: '',
       time: '',
       resdata: '',
@@ -66,8 +73,12 @@ export default {
     XHeader,
     XInput,
     XButton,
+<<<<<<< HEAD
     Alert,
     Toast
+=======
+    Alert
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
   },
   methods: {
     utc2beijing: function (time) {
@@ -78,7 +89,11 @@ export default {
     showData: function () {
       this.userName = sessionStorage.getItem('username')
       this.courseid = sessionStorage.getItem('courseid')
+<<<<<<< HEAD
       axios.get('http://101.132.46.183:8080/Student/SignRecord', {
+=======
+      axios.get('http://localhost:8080/Student/SignRecord', {
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         params: {
           courseid: this.courseid,
           studentid: this.userName
@@ -100,7 +115,11 @@ export default {
     handleSubmit: function () {
       this.userName = sessionStorage.getItem('username')
       this.courseid = sessionStorage.getItem('courseid')
+<<<<<<< HEAD
       axios.put('http://101.132.46.183:8080/Student/SignRecord', qs.stringify({
+=======
+      axios.put('http://localhost:8080/Student/SignRecord', qs.stringify({
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         courseid: this.courseid,
         studentid: this.userName
       }), {

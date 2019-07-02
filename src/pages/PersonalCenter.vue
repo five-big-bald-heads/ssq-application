@@ -86,20 +86,28 @@ export default {
     },
     showData () {
       this.userName = sessionStorage.getItem('username')
+<<<<<<< HEAD
       axios.get('http://101.132.46.183:8080/Self', {
         params: {
           stno: this.userName
         }
+=======
+      axios.get('http://localhost:8080/Self', {
+        stno: this.userName
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
       }).then((response) => {
         this.name = response.data.data.name
       }, (response) => {
         // 响应错误回调
       })
+<<<<<<< HEAD
     },
     LoginOut () {
       localStorage.removeItem('Flag')
       localStorage.removeItem('isStudent')
       this.$router.push('/')
+=======
+>>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
     }
   }
 }
