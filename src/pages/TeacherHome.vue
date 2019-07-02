@@ -16,7 +16,36 @@
           </span>
         </div>
       </div>
-      </div>
+      <!--<div class="course_item" v-for="(item, i) in list" :key="i">-->
+      <!--<span class="span1">-->
+      <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+      <!--</span>-->
+      <!--<span class="span2" >-->
+      <!--<p ref="CourseName" >课程：{{item.courseName}}</p>-->
+      <!--<p ref="CourseName" >考试时间：{{item.examTime}}</p>-->
+      <!--<p ref="CourseName" >任课老师：{{item.teacherName}}</p>-->
+      <!--</span>-->
+      <!--<router-link to="/SignIn">-->
+      <!--<div class="course_item" >-->
+      <!--<span class="span1">-->
+      <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+      <!--</span>-->
+      <!--<span class="span2">-->
+      <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+      <!--</span>-->
+      <!--</div>-->
+      <!--</router-link>-->
+      <!--<router-link to="/SignIn">-->
+      <!--<div class="course_item" >-->
+      <!--<span class="span1">-->
+      <!--<img class="course_img" src="../assets/course_img/ML.jpg">-->
+      <!--</span>-->
+      <!--<span class="span2">-->
+      <!--<router-link to="/CourseInfo" class="course_name"><a>机器学习</a></router-link>-->
+      <!--</span>-->
+      <!--</div>-->
+      <!--</router-link>-->
+    </div>
     <div class="bottom">
       <span class="icon_course">
         <img src="../assets/course_icon.png">
@@ -33,7 +62,7 @@
 <script>
 import { Group, Cell, XHeader, XInput, XButton } from 'vux'
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 export default {
   name: 'home',
   data () {
@@ -57,7 +86,7 @@ export default {
       // this.CourseName = this.$refs.CourseName.innerText
       sessionStorage.setItem('courseid', id)
       console.log(id)
-      this.$router.push('/SignIn')
+      this.$router.push('/PublishSign')
     },
     toPersonalCenter () {
       this.$router.push('/PersonalCenter')
@@ -67,17 +96,13 @@ export default {
       //      sessionStorage.setItem('courseinfo', JSON.stringify(orderData))
       //      const dataB = JSON.parse(sessionStorage.getItem('courseinfo'))
       this.userName = sessionStorage.getItem('username')
-      axios.get('http://101.132.46.183:8080/Student/Course', qs.stringify({
-        stno: this.userName
-      }), {
-        emulateJSON: true
-      }, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      axios.get('http://101.132.46.183:8080/Teacher/Course', {
+        params: {
+          teacherid: this.userName
         }
       }).then(res => {
         this.list = res.data.data
-        console.log(this.list)
+        console.log(res)
       })
         .catch(function (error) {
           console.log(error)

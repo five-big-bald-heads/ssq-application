@@ -1,11 +1,7 @@
 <template>
   <div id="headerPadding">
     <view-box >
-      <x-header :left-options="{showBack:true}">
-        <div slot="left"><x-icon type="ios-arrow-left" class="cell-x-icon" size="30"></x-icon></div>
-        <div>注册</div>
-        <div slot="right"></div>
-      </x-header>
+      <x-header :left-options="{backText: ''}">注册</x-header>
     </view-box>
     <div class="RegisterMid">
         <x-input placeholder="输入工号/学号" v-model="ClassNumber" :max="9" :min="9"  @on-click-clear-icon="resets(event)">
@@ -15,8 +11,8 @@
           <img slot="label" style="padding-right:10px;display:block;" src="../assets/phone.png">
         </x-input>
         <x-input placeholder="请输入验证码" class="weui_vcode" style="padding-right:0" v-model="VerCode" ref="note" type="number" >
-          <font-awesome-icon icon="comment" fixed-width class="pos"  slot="label" />
-          <x-button slot="right" mini  @click.native="getVerifyCode()" :class="btnClassName" :disabled="btnBoolen">{{btnValue}}</x-button>
+          <img slot="label" style="padding-right:10px;display:block;" src="../assets/message.png">
+          <x-button slot="right" mini  @click.native="getVerifyCode()" :class="btnClassName" :disabled="btnBoolen" style="padding-right: 20px">{{btnValue}}</x-button>
         </x-input>
         <x-input placeholder="设置登陆密码" v-if="visible" v-model="PassWord" type="password" :show-clear="false">
           <img slot="label" style="padding-right:10px;" src="../assets/password.png">
@@ -27,16 +23,13 @@
           <x-switch slot="right" title="" v-model="value1" @click.native="changePass('hide')"></x-switch>
         </x-input>
     </div>
-    <div style="padding-left: 70px">
+    <div style="padding-left: 50px">
       <check-icon :value.sync="demo1">已阅读并同意《<a>用户服务协议</a>》</check-icon>
     </div>
-    <x-button type="primary" style="margin-top: 30px;width: 260px;border-radius: 20px;" action-type="button" class="butSize"  @click.native="register()"  :disabled="disabled">确认</x-button>
+    <x-button type="primary" style="margin-top: 30px;width: 288px;border-radius: 10px;" action-type="button"  @click.native="register()"  :disabled="disabled">确认</x-button>
     <div v-transfer-dom>
         <alert v-model="show1">{{ShowText}}</alert>
     </div>
-    <!--<div v-transfer-dom>-->
-      <!--<alert v-model="show2">新密码不为空</alert>-->
-    <!--</div>-->
   </div>
 </template>
 
@@ -93,9 +86,8 @@ export default {
     getVerifyCode () {
       // 获取验证码
       if (this.validatePhone()) {
-        this.validateBtn()
         // 发送网络请求
-        axios.post('http://localhost:8080/Code', qs.stringify({
+        axios.post('http://101.132.46.183:8080/Code', qs.stringify({
           tel: this.PhoneNumber
         }), {
           emulateJSON: true
@@ -105,6 +97,12 @@ export default {
           }
         }).then(res => {
           console.log(res.data)
+          if (res.data.code === 10001) {
+            this.show1 = true
+            this.ShowText = '手机号码已被注册'
+          } else {
+            this.validateBtn()
+          }
         })
           .catch(function (error) {
             console.log(error)
@@ -155,8 +153,11 @@ export default {
       } else if (this.VerCode.length !== 6) {
         this.show1 = true
         this.ShowText = '请输入6位验证码'
+      } else if (this.PassWord.length !== 6) {
+        this.show1 = true
+        this.ShowText = '请输入6位密码'
       } else {
-        axios.post('http://localhost:8080/register', qs.stringify({
+        axios.post('http://101.132.46.183:8080/register', qs.stringify({
           stno: this.ClassNumber,
           tel: this.PhoneNumber,
           code: this.VerCode,
@@ -169,28 +170,27 @@ export default {
           }
         }).then(res => {
           console.log(res.data)
-          location.href = '/#/PerfectInfo'
+          if (res.data.code === 200) {
+            this.$router.push('/PerfectInfo')
+            const orderData = {'stno': this.ClassNumber, 'tel': this.PhoneNumber, 'code': this.VerCode, 'password': this.PassWord}
+            sessionStorage.setItem('info', JSON.stringify(orderData))
+          } else if (res.data.code === 10001) {
+            if (res.data.msg === '该学号已注册') {
+              this.show1 = true
+              this.ShowText = '学号已被注册'
+            } else if (res.data.msg === '验证码错误') {
+              this.show1 = true
+              this.ShowText = '验证码错误'
+            } else if (res.data.msg === '操作超时') {
+              this.show1 = true
+              this.ShowText = '验证码失效'
+            }
+          }
+        }).catch(function (error) {
+          console.log(error)
+          //          this.show1 = true
+          //          this.ShowText = '请输入正确的验证码'
         })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
-    },
-    getValue: function () {
-      let note = this.$refs.note.value // 短信验证码
-      let notes = window.localStorage.getItem('note')
-      console.log(note)
-      console.log(notes)
-      if (note === '') {
-        this.$alert('短信验证码不能为空')
-        return false
-      } else if (note === notes) {
-        this.$alert('短信验输入正确')
-        return true
-      } else {
-        this.$alert('短信验输入错误')
-        this.$refs.note.value = ''
-        return false
       }
     },
     changeType () {
@@ -221,13 +221,10 @@ export default {
     padding: 0px;
   }
   .RegisterMid{
-    padding:50px 60px 10px 60px;
+    padding:40px 10px 10px 10px;
   }
   .pos{
     padding-right:20px;
-  }
-  .butSize{
-    width: 50px;
   }
   .cell-x-icon {
 
