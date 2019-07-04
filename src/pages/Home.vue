@@ -5,9 +5,17 @@
     </div>
     <div class="content">
       <div class="group">
-        <div class="course_item"  v-for="(item, i) in list" :key="i" v-on:click.once="toCourse(item.courseId)">
+        <div class="course_item"  v-for="(item, i) in list" :key="i" v-on:click="toCourse(item.courseId)">
           <span class="span1">
-            <img class="course_img" src="../assets/course_img/ML.jpg">
+            <img  v-if="item.courseName == '高级机器学习'" class="course_img" src="../assets/course_img/ML.jpg">
+            <img  v-else-if="item.courseName == '专业英语'" class="course_img" src="../assets/course_img/zyyy.jpg">
+            <img  v-else-if="item.courseName == '智能技术'" class="course_img" src="../assets/course_img/znjs.jpg">
+            <img  v-else-if="item.courseName == '密码学'" class="course_img" src="../assets/course_img/mmx.jpg">
+            <img  v-else-if="item.courseName == '工程实训'" class="course_img" src="../assets/course_img/rjgc.jpg">
+            <img  v-else-if="item.courseName == '商务英语'" class="course_img" src="../assets/course_img/swyy.jpg">
+            <img  v-else-if="item.courseName == '自然辩证法'" class="course_img" src="../assets/course_img/zrbzf.jpg">
+            <img  v-else-if="item.courseName == '中西方翻译史'" class="course_img" src="../assets/course_img/zxffy.jpg">
+            <img  v-else-if="item.courseName == '应用语言学'" class="course_img" src="../assets/course_img/yyyyx.jpg">
           </span>
           <span class="span2" >
             <p ref="CourseName" >课程：{{item.courseName}}</p>
@@ -39,7 +47,8 @@ export default {
   data () {
     return {
       list: [],
-      userName: ''
+      userName: '',
+      imgPath: ''
     }
   },
   components: {

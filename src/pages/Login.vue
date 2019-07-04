@@ -94,7 +94,8 @@ export default {
             // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
             // 我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
             localStorage.setItem('Flag', 'isLogin')
-            if (this.userName[0] === 'T') {
+            // console.log(res.data.data[0]) //查看roleid
+            if (res.data.data[0] === 2) {
               this.$router.push('/TeacherHome')
               localStorage.setItem('isStudent', '0')
             } else {
