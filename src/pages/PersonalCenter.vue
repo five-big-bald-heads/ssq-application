@@ -39,7 +39,7 @@
         </group>
       </div>
       <div class="aa">
-        <x-button class="bb" type="primary" >退出登陆</x-button>
+        <x-button class="bb" type="primary" @click.native="LoginOut">退出登陆</x-button>
       </div>
     </div>
   </div>
@@ -86,13 +86,20 @@ export default {
     },
     showData () {
       this.userName = sessionStorage.getItem('username')
-      axios.get('http://localhost:8080/Self', {
-        stno: this.userName
+      axios.get('http://101.132.46.183:8080/Self', {
+        params: {
+          stno: this.userName
+        }
       }).then((response) => {
         this.name = response.data.data.name
       }, (response) => {
         // 响应错误回调
       })
+    },
+    LoginOut () {
+      localStorage.removeItem('Flag')
+      localStorage.removeItem('isStudent')
+      this.$router.push('/')
     }
   }
 }

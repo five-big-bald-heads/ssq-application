@@ -78,7 +78,7 @@ export default {
       } else if (this.passWord === '') {
         this.show2 = true
       } else {
-        axios.post('http://localhost:8080/login', qs.stringify({
+        axios.post('http://101.132.46.183:8080/login', qs.stringify({
           stno: this.userName,
           password: this.passWord
         }), {
@@ -89,10 +89,17 @@ export default {
           console.log(res.data)
           if (res.data.code === 200) {
             sessionStorage.setItem('username', this.userName)
+            // 设置Vuex登录标志为true，默认userLogin为false
+            //            this.$store.dispatch('userLogin', true)
+            // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
+            // 我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
+            localStorage.setItem('Flag', 'isLogin')
             if (this.userName[0] === 'T') {
               this.$router.push('/TeacherHome')
+              localStorage.setItem('isStudent', '0')
             } else {
               this.$router.push('/Home')
+              localStorage.setItem('isStudent', '1')
             }
           } else if (res.data.code === 10001) {
             this.passWord = ''
@@ -112,8 +119,10 @@ export default {
   .body{
     width: 100%;
     height: 100%;
+    position: absolute;
     background-color: #fafbf9;
   }
+
   .imgarea{
     margin-top: 80px;
     width: 150px;

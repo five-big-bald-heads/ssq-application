@@ -63,7 +63,7 @@ export default {
         this.show2 = true
       } else {
         this.userName = sessionStorage.getItem('username')
-        axios.post('http://localhost:8080/User', qs.stringify({
+        axios.post('http://101.132.46.183:8080/User', qs.stringify({
           stno: this.userName,
           oldpassword: this.oldPassword,
           password: this.newPassword

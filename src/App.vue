@@ -20,7 +20,17 @@ export default {
   methods: {
     login () {
       // this.$router.push({path: '/Login'})
-      this.$router.push('/Login')
+      let getFlag = localStorage.getItem('Flag')
+      let isStudent = localStorage.getItem('isStudent')
+      if (getFlag === 'isLogin') {
+        if (isStudent === '1') {
+          this.$router.push('/Home')
+        } else {
+          this.$router.push('/TeacherHome')
+        }
+      } else {
+        this.$router.push('/Login')
+      }
     }
   }
 

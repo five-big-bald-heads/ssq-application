@@ -88,7 +88,7 @@ export default {
     showData: function () { // 直接显示教师本课程的历史发布签到
       this.userName = sessionStorage.getItem('username')
       this.courseId = sessionStorage.getItem('courseid')
-      axios.get('http://localhost:8080/Teacher/SignIn', {
+      axios.get('http://101.132.46.183:8080/Teacher/SignIn', {
         params: {
           courseid: this.courseId
         }
@@ -112,7 +112,7 @@ export default {
     handleSubmit: function (value) { // 发布签到
       this.userName = sessionStorage.getItem('username')
       this.courseId = sessionStorage.getItem('courseid')
-      axios.post('http://localhost:8080/Teacher/SignIn', qs.stringify({
+      axios.post('http://101.132.46.183:8080/Teacher/SignIn', qs.stringify({
         courseid: this.courseId,
         studentid: this.userName,
         duration: parseFloat(value)
@@ -136,7 +136,7 @@ export default {
       console.log('当前被点击的id=' + id)
       this.signid = parseInt(id)
       sessionStorage.setItem('signid', this.signid)
-      axios.get('http://localhost:8080/Teacher/SignRecord', {
+      axios.get('http://101.132.46.183:8080/Teacher/SignRecord', {
         params: {
           signid: parseInt(id)
         }
