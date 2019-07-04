@@ -113,6 +113,7 @@ export default {
         // console.log(this.time)
         if (res.data.code === 200) {
           this.show2 = true
+          this.$router.push('/SuccessSign')
         } else if (res.data.msg === '签到超时') {
           this.show1 = true // 签到超时
         } else if (res.data.msg === '请勿重复签到') {

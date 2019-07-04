@@ -17,6 +17,7 @@ import PerfectInfo from '@/pages/PerfectInfo'
 import TeacherHome from '@/pages/TeacherHome'
 import TeacherSignrecord from '@/pages/TeacherSignrecord'
 import SignResult from '@/pages/SignResult'
+import SuccessSign from '@/pages/SuccessSign'
 Vue.use(Router)
 export default new Router({
   mode: 'hash',
@@ -156,6 +157,14 @@ export default new Router({
         isLogin: true
       },
       component: TeacherSignrecord
+    },
+    {
+      path: '/SuccessSign', /* 老师签到 */
+      name: 'SuccessSign',
+      meta: {
+        isLogin: true
+      },
+      component: SuccessSign
     }
   ]
 })
