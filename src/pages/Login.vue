@@ -43,91 +43,91 @@
 </template>
 
 <script type = "text/javascript">
-import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
-import axios from 'axios'
-import qs from 'qs'
-export default {
-  name: 'Login',
-  directives: {
-    TransferDom
-  },
-  data () {
-    return {
-      userName: '',
-      passWord: '',
-      show1: false,
-      show2: false,
-      show3: false,
-      show4: false,
-      resData: [],
-      postData: []
-    }
-  },
-  components: {
-    Group,
-    Cell,
-    XHeader,
-    XInput,
-    XButton,
-    Alert
-  },
-  methods: {
-    handleSubmit: function () {
-      if (this.userName === '') {
-        this.show1 = true
-      } else if (this.passWord === '') {
-        this.show2 = true
-      } else {
-        axios.post('http://101.132.46.183:8080/login', qs.stringify({
-          stno: this.userName,
-          password: this.passWord
-        }), {
-          headers: {
-            token: 'true'
-          }
-        }).then(res => {
-          console.log(res.data)
-          if (res.data.code === 200) {
-            localStorage.setItem('username', this.userName)
-            // 设置Vuex登录标志为true，默认userLogin为false
-            //            this.$store.dispatch('userLogin', true)
-            // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
-            // 我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
-            localStorage.setItem('Flag', 'isLogin')
-            // console.log(res.data.data[0]) //查看roleid
-            if (res.data.data[0] === 2) {
-              this.$router.push('/TeacherHome')
-              localStorage.setItem('isStudent', '0')
-            } else {
-              this.$router.push('/Home')
-              localStorage.setItem('isStudent', '1')
+  import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
+  import axios from 'axios'
+  import qs from 'qs'
+  export default {
+    name: 'Login',
+    directives: {
+      TransferDom
+    },
+    data () {
+      return {
+        userName: '',
+        passWord: '',
+        show1: false,
+        show2: false,
+        show3: false,
+        show4: false,
+        resData: [],
+        postData: []
+      }
+    },
+    components: {
+      Group,
+      Cell,
+      XHeader,
+      XInput,
+      XButton,
+      Alert
+    },
+    methods: {
+      handleSubmit: function () {
+        if (this.userName === '') {
+          this.show1 = true
+        } else if (this.passWord === '') {
+          this.show2 = true
+        } else {
+          axios.post('http://101.132.46.183:8080/login', qs.stringify({
+            stno: this.userName,
+            password: this.passWord
+          }), {
+            headers: {
+              token: 'true'
             }
-          } else if (res.data.code === 10001) {
-            this.passWord = ''
-            this.show4 = true
-          } else if (res.data.code === 10004) {
-            this.userName = ''
-            this.show3 = true
-          }
-        })
+          }).then(res => {
+            console.log(res.data)
+            if (res.data.code === 200) {
+              localStorage.setItem('username', this.userName)
+              // 设置Vuex登录标志为true，默认userLogin为false
+              //            this.$store.dispatch('userLogin', true)
+              // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
+              // 我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
+              localStorage.setItem('Flag', 'isLogin')
+              // console.log(res.data.data[0]) //查看roleid
+              if (res.data.data[0] === 2) {
+                this.$router.push('/TeacherHome')
+                localStorage.setItem('isStudent', '0')
+              } else {
+                this.$router.push('/Home')
+                localStorage.setItem('isStudent', '1')
+              }
+            } else if (res.data.code === 10001) {
+              this.passWord = ''
+              this.show4 = true
+            } else if (res.data.code === 10004) {
+              this.userName = ''
+              this.show3 = true
+            }
+          })
+        }
       }
-    }
-  },
-  created  () {
-    // this.$router.push({path: '/Login'})
-    let getFlag = localStorage.getItem('Flag')
-    let isStudent = localStorage.getItem('isStudent')
-    if (getFlag === 'isLogin') {
-      if (isStudent === '1') {
-        this.$router.push('/Home')
+    },
+    created  () {
+      // this.$router.push({path: '/Login'})
+      let getFlag = localStorage.getItem('Flag')
+      let isStudent = localStorage.getItem('isStudent')
+      if (getFlag === 'isLogin') {
+        if (isStudent === '1') {
+          this.$router.push('/Home')
+        } else {
+          this.$router.push('/TeacherHome')
+        }
       } else {
-        this.$router.push('/TeacherHome')
+        this.$router.push('/')
       }
-    } else {
-      this.$router.push('/')
     }
   }
-}
 </script>
 
 <style lang="less" scoped>

@@ -46,64 +46,64 @@
 </template>
 
 <script>
-import { Group, Cell, XHeader, XInput, XButton, CellBox, Actionsheet } from 'vux'
-import axios from 'axios'
-export default {
-  name: 'PersonalCenter',
-  components: {
-    Group,
-    Cell,
-    XHeader,
-    XInput,
-    XButton,
-    Actionsheet,
-    CellBox
-  },
-  data () {
-    return {
-      // action sheet 选项内容
-      userName: '',
-      name: '',
-      sheetVisible: false,
-      data: {
-        menu1: '拍照',
-        menu2: '从相册中选择'
+  import { Group, Cell, XHeader, XInput, XButton, CellBox, Actionsheet } from 'vux'
+  import axios from 'axios'
+  export default {
+    name: 'PersonalCenter',
+    components: {
+      Group,
+      Cell,
+      XHeader,
+      XInput,
+      XButton,
+      Actionsheet,
+      CellBox
+    },
+    data () {
+      return {
+        // action sheet 选项内容
+        userName: '',
+        name: '',
+        sheetVisible: false,
+        data: {
+          menu1: '拍照',
+          menu2: '从相册中选择'
+        }
+      }
+    },
+    mounted () {
+      this.showData()
+    },
+    methods: {
+      actionsheet () {
+        this.sheetVisible = true
+      },
+      getCamera () {
+        console.log('拍照')
+      },
+      getImage () {
+        console.log('相册')
+      },
+      showData () {
+        this.userName = localStorage.getItem('username')
+        axios.get('http://101.132.46.183:8080/Self', {
+          params: {
+            stno: this.userName
+          }
+        }).then((response) => {
+          this.name = response.data.data.name
+        }, (response) => {
+          // 响应错误回调
+        })
+      },
+      LoginOut () {
+        localStorage.removeItem('username')
+        localStorage.removeItem('Flag')
+        localStorage.removeItem('isStudent')
+        this.$router.push('/')
       }
     }
-  },
-  mounted () {
-    this.showData()
-  },
-  methods: {
-    actionsheet () {
-      this.sheetVisible = true
-    },
-    getCamera () {
-      console.log('拍照')
-    },
-    getImage () {
-      console.log('相册')
-    },
-    showData () {
-      this.userName = localStorage.getItem('username')
-      axios.get('http://101.132.46.183:8080/Self', {
-        params: {
-          stno: this.userName
-        }
-      }).then((response) => {
-        this.name = response.data.data.name
-      }, (response) => {
-        // 响应错误回调
-      })
-    },
-    LoginOut () {
-      localStorage.removeItem('username')
-      localStorage.removeItem('Flag')
-      localStorage.removeItem('isStudent')
-      this.$router.push('/')
-    }
   }
-}
 </script>
 
 <style lang="less" scoped>
