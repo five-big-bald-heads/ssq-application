@@ -20,25 +20,15 @@
         </div>
       </div>
     </div>
-    <div v-transfer-dom>
-      <alert v-model="show1" :title="''">您已签过到</alert>
-    </div>
-    <div v-transfer-dom>
-      <alert v-model="show1" :title="''">当前不在签到时间！</alert>
-    </div>
-    <div v-transfer-dom>
-      <alert v-model="show3" :title="''">请勿重复签到！</alert>
-    </div>
+    <toast v-model="show1" type="text"  width="20em" text="签到超时!"></toast>
     <toast v-model="show2" text="签到成功"></toast>
+    <toast v-model="show4" type="text"  width="20em" text="当前不在签到时间！"></toast>
+    <toast v-model="show3" type="text"  width="20em" text="请勿重复签到！"></toast>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
 import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert, Toast } from 'vux'
-=======
-import { Group, Cell, XHeader, XInput, XButton, TransferDomDirective as TransferDom, Alert } from 'vux'
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
 import axios from 'axios'
 import qs from 'qs'
 export default {
@@ -48,10 +38,8 @@ export default {
       courseid: '',
       show1: false,
       show2: false,
-<<<<<<< HEAD
       show3: false,
-=======
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
+      show4: false,
       userName: '',
       time: '',
       resdata: '',
@@ -73,12 +61,8 @@ export default {
     XHeader,
     XInput,
     XButton,
-<<<<<<< HEAD
     Alert,
     Toast
-=======
-    Alert
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
   },
   methods: {
     utc2beijing: function (time) {
@@ -89,11 +73,7 @@ export default {
     showData: function () {
       this.userName = sessionStorage.getItem('username')
       this.courseid = sessionStorage.getItem('courseid')
-<<<<<<< HEAD
       axios.get('http://101.132.46.183:8080/Student/SignRecord', {
-=======
-      axios.get('http://localhost:8080/Student/SignRecord', {
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         params: {
           courseid: this.courseid,
           studentid: this.userName
@@ -115,11 +95,7 @@ export default {
     handleSubmit: function () {
       this.userName = sessionStorage.getItem('username')
       this.courseid = sessionStorage.getItem('courseid')
-<<<<<<< HEAD
       axios.put('http://101.132.46.183:8080/Student/SignRecord', qs.stringify({
-=======
-      axios.put('http://localhost:8080/Student/SignRecord', qs.stringify({
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
         courseid: this.courseid,
         studentid: this.userName
       }), {
@@ -137,10 +113,13 @@ export default {
         // console.log(this.time)
         if (res.data.code === 200) {
           this.show2 = true
+          this.$router.push('/SuccessSign')
         } else if (res.data.msg === '签到超时') {
-          this.show1 = true // 当前不在签到时间
+          this.show1 = true // 签到超时
         } else if (res.data.msg === '请勿重复签到') {
-          this.show3 = true // 当前不在签到时间
+          this.show3 = true // 请勿重复签到
+        } else if (res.data.msg === '不存在此签到') {
+          this.show4 = true // 当前不在签到时间
         }
       })
     }

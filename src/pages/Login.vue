@@ -78,11 +78,7 @@ export default {
       } else if (this.passWord === '') {
         this.show2 = true
       } else {
-<<<<<<< HEAD
         axios.post('http://101.132.46.183:8080/login', qs.stringify({
-=======
-        axios.post('http://localhost:8080/login', qs.stringify({
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
           stno: this.userName,
           password: this.passWord
         }), {
@@ -92,25 +88,19 @@ export default {
         }).then(res => {
           console.log(res.data)
           if (res.data.code === 200) {
-            sessionStorage.setItem('username', this.userName)
-<<<<<<< HEAD
+            localStorage.setItem('username', this.userName)
             // 设置Vuex登录标志为true，默认userLogin为false
             //            this.$store.dispatch('userLogin', true)
             // Vuex在用户刷新的时候userLogin会回到默认值false，所以我们需要用到HTML5储存
             // 我们设置一个名为Flag，值为isLogin的字段，作用是如果Flag有值且为isLogin的时候，证明用户已经登录了。
             localStorage.setItem('Flag', 'isLogin')
-            if (this.userName[0] === 'T') {
+            // console.log(res.data.data[0]) //查看roleid
+            if (res.data.data[0] === 2) {
               this.$router.push('/TeacherHome')
               localStorage.setItem('isStudent', '0')
             } else {
               this.$router.push('/Home')
               localStorage.setItem('isStudent', '1')
-=======
-            if (this.userName[0] === 'T') {
-              this.$router.push('/TeacherHome')
-            } else {
-              this.$router.push('/Home')
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
             }
           } else if (res.data.code === 10001) {
             this.passWord = ''
@@ -122,6 +112,20 @@ export default {
         })
       }
     }
+  },
+  created  () {
+    // this.$router.push({path: '/Login'})
+    let getFlag = localStorage.getItem('Flag')
+    let isStudent = localStorage.getItem('isStudent')
+    if (getFlag === 'isLogin') {
+      if (isStudent === '1') {
+        this.$router.push('/Home')
+      } else {
+        this.$router.push('/TeacherHome')
+      }
+    } else {
+      this.$router.push('/')
+    }
   }
 }
 </script>
@@ -130,8 +134,10 @@ export default {
   .body{
     width: 100%;
     height: 100%;
+    position: absolute;
     background-color: #fafbf9;
   }
+
   .imgarea{
     margin-top: 80px;
     width: 150px;

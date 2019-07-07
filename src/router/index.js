@@ -16,11 +16,8 @@ import CheckUpdate from '@/pages/CheckUpdate'
 import PerfectInfo from '@/pages/PerfectInfo'
 import TeacherHome from '@/pages/TeacherHome'
 import TeacherSignrecord from '@/pages/TeacherSignrecord'
-<<<<<<< HEAD
 import SignResult from '@/pages/SignResult'
-=======
-
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
+import SuccessSign from '@/pages/SuccessSign'
 Vue.use(Router)
 export default new Router({
   mode: 'hash',
@@ -146,7 +143,6 @@ export default new Router({
       component: Course
     },
     {
-<<<<<<< HEAD
       path: '/TeacherHome', /* 老师主页 */
       name: 'TeacherHome',
       meta: {
@@ -160,16 +156,15 @@ export default new Router({
       meta: {
         isLogin: true
       },
-=======
-      path: '/TeacherHome', /* 课程详情 */
-      name: 'TeacherHome',
-      component: TeacherHome
+      component: TeacherSignrecord
     },
     {
-      path: '/TeacherSignrecord', /* 课程详情 */
-      name: 'TeacherSignrecord',
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
-      component: TeacherSignrecord
+      path: '/SuccessSign', /* 老师签到 */
+      name: 'SuccessSign',
+      meta: {
+        isLogin: true
+      },
+      component: SuccessSign
     }
   ]
 })

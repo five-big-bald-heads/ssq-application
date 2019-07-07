@@ -62,12 +62,8 @@ export default {
       } else if (this.newPassword === '') {
         this.show2 = true
       } else {
-        this.userName = sessionStorage.getItem('username')
-<<<<<<< HEAD
+        this.userName = localStorage.getItem('username')
         axios.post('http://101.132.46.183:8080/User', qs.stringify({
-=======
-        axios.post('http://localhost:8080/User', qs.stringify({
->>>>>>> a4788f6507ec9b64b0ee083e18cbb148485e177b
           stno: this.userName,
           oldpassword: this.oldPassword,
           password: this.newPassword

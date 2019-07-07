@@ -129,9 +129,9 @@ export default {
       } else if (this.VerCode.length !== 6) {
         this.show1 = true
         this.ShowText = '请输入6位验证码'
-      } else if (this.PassWord.length !== 6) {
+      } else if (this.PassWord.length <= 6) {
         this.show1 = true
-        this.ShowText = '请输入6位密码'
+        this.ShowText = '密码必须大于6位'
       } else {
         axios.post('http://101.132.46.183:8080/forgetpassword', qs.stringify({
           tel: this.PhoneNumber,
